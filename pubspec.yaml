@@ -1,7 +1,7 @@
 name: ez_mqtt_client
 description: MQTT Client optimized for Flutter
 version: 0.0.1
-author: jh@embrace-it.com
+author: jawad89@gmail.com
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
