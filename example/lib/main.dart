@@ -39,12 +39,8 @@ class _MqttTestState extends State<MqttTest> {
   }
 
   void _init() async {
-    mqttClient = await EzMqttClient.secure(
-        url: 'qa-mqtt.cubivue.com',
-        clientId: await Utils.deviceUniqueId,
-        secureCertificate:
-            await Utils.getFileFromAssets("assets/m2mqtt_ca.crt"),
-        enableLogs: true);
+    mqttClient = EzMqttClient.nonSecure(
+        url: '127.0.0.1', clientId: Utils.uuid, enableLogs: true);
 
     print('[$TAG] is client connected: ${mqttClient.isConnected}');
     await mqttClient
@@ -54,7 +50,7 @@ class _MqttTestState extends State<MqttTest> {
             (error) => print('[$TAG] unable to connect, error: $error'));
     print('[$TAG] is client connected: ${mqttClient.isConnected}');
 
-    final topic = "test/lol";
+    final topic = "home/topic/listen";
     subscribe(topic);
   }
 
@@ -81,7 +77,7 @@ class _MqttTestState extends State<MqttTest> {
             topic: topic,
             onMessage: (topic, message) =>
                 print('[$TAG] received message on topic $topic:\n $message'))
-        .then((value) => print('[$TAG] subscribed to topic: test/lol - $value'))
+        .then((value) => print('[$TAG] subscribed to topic: $value'))
         .catchError((error) => print(
             '[$TAG] failed to subscribe to topic: $topic. \n\nerror: \n$error'));
   }
@@ -101,16 +97,16 @@ class _MqttTestState extends State<MqttTest> {
               RaisedButton(
                 child: Text("Send 5 Messages"),
                 onPressed: () => sendMessages(
-                    topic: "home.cubivue.dev.bk.device_status",
-                    message: "bk_dev",
+                    topic: "home/topic/send",
+                    message: "Test message",
                     interval: Duration(seconds: 1),
                     count: 5),
               ),
               RaisedButton(
                 child: Text("Send 50 Messages"),
                 onPressed: () => sendMessages(
-                    topic: "home.cubivue.dev.bk.device_status",
-                    message: "bk_dev",
+                    topic: "home/topic/send",
+                    message: "Test Message",
                     interval: Duration(milliseconds: 1000),
                     count: 50),
               ),
@@ -120,7 +116,7 @@ class _MqttTestState extends State<MqttTest> {
               ),
               RaisedButton(
                 child: Text("Subscribe"),
-                onPressed: () => subscribe("test/lol"),
+                onPressed: () => subscribe("home/topic/listen"),
               )
             ],
           ),
