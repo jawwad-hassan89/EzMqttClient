@@ -79,7 +79,7 @@ class EzMqttClient implements IMqttClient {
 
   String _cachedUserName;
   String _cachedPassword;
-  bool _didTimeOut;
+  bool _didTimeOut = false;
 
   factory EzMqttClient.nonSecure({
     @required String url,
