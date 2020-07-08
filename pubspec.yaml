@@ -1,6 +1,6 @@
 name: ez_mqtt_client
 description: MQTT Client optimized for Flutter
-version: 0.0.2+1
+version: 0.0.2+2
 repository: https://github.com/jawad89/EzMqttClient
 
 environment:

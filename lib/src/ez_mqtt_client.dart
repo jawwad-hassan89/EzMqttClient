@@ -235,7 +235,7 @@ class EzMqttClient implements IMqttClient {
     final timeOutMsg =
         "Unable to publish message.\n** Message: $message\n** Topic: $topic";
     await _ensureConnected()
-        .timeout(timeOut, onTimeout: () => _onTimeout(timeOutMsg))
+        .timeout(timeOut, onTimeout: () => _onTimeout<bool>(timeOutMsg))
         .catchError((error) {
       throw error;
     });
@@ -262,7 +262,7 @@ class EzMqttClient implements IMqttClient {
     }
 
     return await completer.future
-        .timeout(timeOut, onTimeout: () => _onTimeout(timeOutMsg));
+        .timeout(timeOut, onTimeout: () => _onTimeout<Message>(timeOutMsg));
   }
 
   @override
@@ -289,7 +289,7 @@ class EzMqttClient implements IMqttClient {
     }
 
     return await completer.future
-        .timeout(timeOut, onTimeout: () => _onTimeout(timeOutMsg));
+        .timeout(timeOut, onTimeout: () => _onTimeout<bool>(timeOutMsg));
   }
 
   @override
@@ -387,7 +387,7 @@ class EzMqttClient implements IMqttClient {
     }
   }
 
-  Future<T> _onTimeout<T>(String msg) async {
+  FutureOr<T> _onTimeout<T>(String msg) async {
     _didTimeOut = true;
     throw TimeoutException(msg);
   }
